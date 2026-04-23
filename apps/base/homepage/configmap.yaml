@@ -26,10 +26,6 @@ data:
         - Mealie:
             - href: https://mealie.robertharte.net/
               description: Mealie
-    - Testing:
-        - BBC:
-            - href: www.bbc.co.uk/
-              description: BBC
   services.yaml: |
     - Monitoring:
         - Grafana:
