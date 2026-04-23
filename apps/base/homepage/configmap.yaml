@@ -21,18 +21,18 @@ data:
               href: https://github.com/
     - Internal:
         - LinkDing:
-            - href: https://linkding.robertharte.net:9090/
+            - href: http://linkding.robertharte.net:9090/
               description: LinkDing
         - Mealie:
-            - href: https://mealie.robertharte.net/
+            - href: http://mealie.robertharte.net/
               description: Mealie
   services.yaml: |
     - Monitoring:
         - Grafana:
-            href: https://grafana.robertharte.net/
+            href: http://grafana.robertharte.net/
     - Database:
         - pgAdmin:
-            href: https://pgadmin.robertharte.net/
+            href: http://pgadmin.robertharte.net/
   widgets.yaml: |
     - kubernetes:
         cluster:
