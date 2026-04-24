@@ -27,7 +27,9 @@ spec:
           kind: PrometheusRule
   values:
     grafana:
-      adminPassword: robert
+      envFrom:
+        - secretRef:
+            name: grafana-env
       ingress:
         enabled: true
         ingressClassName: traefik
