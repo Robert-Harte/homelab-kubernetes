@@ -21,7 +21,7 @@ data:
               href: https://github.com/
     - Internal:
         - LinkDing:
-            - href: http://linkding.robertharte.net/
+            - href: https://linkding.robertharte.net/
               description: LinkDing
         - Mealie:
             - href: https://mealie.robertharte.net/
@@ -29,10 +29,10 @@ data:
   services.yaml: |
     - Monitoring:
         - Grafana:
-            href: http://grafana.robertharte.net/
+            href: https://grafana.robertharte.net/
     - Database:
         - pgAdmin:
-            href: http://pgadmin.robertharte.net/
+            href: https://pgadmin.robertharte.net/
   widgets.yaml: |
     - kubernetes:
         cluster:
