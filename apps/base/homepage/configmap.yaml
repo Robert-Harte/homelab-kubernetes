@@ -21,10 +21,10 @@ data:
               href: https://github.com/
     - Internal:
         - LinkDing:
-            - href: http://linkding.robertharte.net:9090/
+            - href: http://linkding.robertharte.net/
               description: LinkDing
         - Mealie:
-            - href: http://mealie.robertharte.net/
+            - href: https://mealie.robertharte.net/
               description: Mealie
   services.yaml: |
     - Monitoring:
