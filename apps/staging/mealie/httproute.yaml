@@ -4,12 +4,12 @@ metadata:
   name: mealie
 spec:
   parentRefs:
-  - kind: Gateway
-    name: nginx-gateway
-    namespace: nginx-gateway
-  hostnames:
-  - "mealie.robertharte.net"
+  - name: nginx-gateway
   rules:
-  - backendRefs:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
     - name: mealie
-      port: 9000
+      port: 80
