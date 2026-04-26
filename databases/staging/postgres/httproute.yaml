@@ -4,12 +4,12 @@ metadata:
   name: postgres
 spec:
   parentRefs:
-  - kind: Gateway
-    name: nginx-gateway
-    namespace: nginx-gateway
-  hostnames:
-  - "postgres.robertharte.net"
+  - name: nginx-gateway
   rules:
-  - backendRefs:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
     - name: postgres
       port: 5432
