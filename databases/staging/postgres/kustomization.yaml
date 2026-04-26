@@ -4,4 +4,4 @@ namespace: database
 resources:
   - ../../base/postgres/
   - postgres-container-env-secret.yaml
-  - httproute.yaml
+  - ingress.yaml
