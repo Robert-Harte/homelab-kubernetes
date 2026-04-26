@@ -7,10 +7,9 @@ spec:
   - kind: Gateway
     name: nginx-gateway
     namespace: nginx-gateway
+  hostnames:
+  - "mealie.robertharte.net"
   rules:
-    - match:
-      path:
-        value: "/"
-    - backendRefs:
-      - name: mealie
-        port: 9000
+  - backendRefs:
+    - name: mealie
+      port: 9000
