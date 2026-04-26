@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: mealie
+spec:
+  parentRefs:
+  - kind: Gateway
+    name: nginx-gateway
+    namespace: nginx-gateway
+  rules:
+    - match:
+      path:
+        value: "/"
+    - backendRefs:
+      - name: mealie
+        port: 9000
