@@ -1,6 +1,6 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: GatewayClass
 metadata:
-  name: nginx-gateway-class
+  name: traefik-gateway-class
 spec:
-  controllerName: robertharte.net/gateway-controller
+  controllerName: traefik.io/gateway-controller
