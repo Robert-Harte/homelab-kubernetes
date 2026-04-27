@@ -37,3 +37,4 @@ spec:
           - mountPath: "/calibre-books"
             name: calibre-data
           - mountPath: "/calibre-ingest"
+            name: calibre-ingest
