@@ -10,3 +10,16 @@ spec:
   resources:
     requests:
       storage: 500Mb
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: calibre-data-pvc
+  labels:
+    apps: calibre
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
