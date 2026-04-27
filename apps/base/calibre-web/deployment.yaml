@@ -26,9 +26,6 @@ spec:
         name: calibre
         ports:
           - containerPort: 8083
-        envFrom:
-          - secretRef:
-              name: calibre-container-env
         securityContext:
           allowPrivilegeEscalation: false
         volumeMounts:
