@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: calibre
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: calibre.robertharte.net
+      http:
+        paths:
+          - backend:
+              service:
+                name: calibre
+                port:
+                  number: 8083
+            path: /
+            pathType: Prefix

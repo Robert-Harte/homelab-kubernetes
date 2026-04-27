@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: calibre
+  name: calibre
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calibre
+  template:
+    metadata:
+      labels:
+        app: calibre
+    spec:
+      volumes:
+        - name: calibre-config
+          persistentVolumeClaim:
+            claimName: calibre-config-pvc
+        - name: calibre-data
+          persistentVolumeClaim:
+            claimName: calibre-data-pvc
+      containers:
+      - image: lscr.io/linuxserver/calibre-web:0.6.26-ls380
+        name: calibre
+        ports:
+          - containerPort: 8083
+        envFrom:
+          - secretRef:
+              name: calibre-container-env
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+          - mountPath: /config
+            name: calibre-config
+          - mountPath: /books
+            name: calibre-data
