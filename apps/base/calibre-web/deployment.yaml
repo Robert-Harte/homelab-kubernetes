@@ -32,7 +32,7 @@ spec:
         securityContext:
           allowPrivilegeEscalation: false
         volumeMounts:
-          - mountPath: "/calibre-config"
+          - mountPath: "/config"
             name: calibre-config
           - mountPath: "/calibre-library"
             name: calibre-data
