@@ -21,15 +21,19 @@ spec:
         - name: calibre-data
           persistentVolumeClaim:
             claimName: calibre-data-pvc
+        - name: calibre-ingest
+          persistentVolumeClaim:
+            claimName: calibre-ingest-pvc
       containers:
-      - image: lscr.io/linuxserver/calibre-web:0.6.26-ls380
+        - image: crocodilestick/calibre-web-automated:v4.0.6
         name: calibre
         ports:
           - containerPort: 8083
         securityContext:
           allowPrivilegeEscalation: false
         volumeMounts:
-          - mountPath: "/config"
+          - mountPath: "/calibre-config"
             name: calibre-config
-          - mountPath: "/books"
+          - mountPath: "/calibre-books"
             name: calibre-data
+          - mountPath: "/calibre-ingest"
