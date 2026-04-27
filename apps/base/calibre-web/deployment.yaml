@@ -31,5 +31,5 @@ spec:
         volumeMounts:
           - mountPath: "/config"
             name: calibre-config
-          - mountPath: "/books/robert"
+          - mountPath: "/books"
             name: calibre-data
