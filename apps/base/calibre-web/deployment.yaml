@@ -25,7 +25,7 @@ spec:
           persistentVolumeClaim:
             claimName: calibre-ingest-pvc
       containers:
-        - image: crocodilestick/calibre-web-automated:v4.0.6
+      - image: crocodilestick/calibre-web-automated:v4.0.6
         name: calibre
         ports:
           - containerPort: 8083
