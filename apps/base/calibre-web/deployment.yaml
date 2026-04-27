@@ -34,7 +34,5 @@ spec:
         volumeMounts:
           - mountPath: "/calibre-config"
             name: calibre-config
-          - mountPath: "/calibre-books"
+          - mountPath: "/calibre-library"
             name: calibre-data
-          - mountPath: "/calibre-ingest"
-            name: calibre-ingest
