@@ -3,5 +3,4 @@ kind: Kustomization
 namespace: calibre
 resources:
   - ../../base/calibre-web/
-  - calibre-container-env-secret.yaml
   - ingress.yaml
