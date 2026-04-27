@@ -26,6 +26,9 @@ data:
         - Mealie:
             - href: https://mealie.robertharte.net/
               description: Mealie
+        - Calibre:
+            - href: https://calibre.robertharte.net/
+              description: Calibre
   services.yaml: |
     - Monitoring:
         - Grafana:
