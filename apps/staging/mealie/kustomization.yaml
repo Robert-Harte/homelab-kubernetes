@@ -4,4 +4,3 @@ namespace: mealie
 resources:
   - ../../base/mealie/
   - mealie-container-env-secret.yaml
-  - ingress.yaml
