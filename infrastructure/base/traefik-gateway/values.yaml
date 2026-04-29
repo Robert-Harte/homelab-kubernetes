@@ -16,15 +16,15 @@ ports:
   websecure:
     port: 443
     exposedPort: 443
-
+     
 providers:
   kubernetesGateway:
     enabled: true
-    experimentalChannel: false
+    experimentalChannel: true
   kubernetesCRD:
     # -- Load kuberneetes IngressRoute provider
     enabled: true
-
+    
 # Disable gateway default because I want to provide them separately.
 gatewayClass:
   enabled: false
