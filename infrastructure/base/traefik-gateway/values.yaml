@@ -1,0 +1,32 @@
+# values.yaml
+logs:
+  access:
+    enabled: true
+    format: json
+    fields:
+      general:
+        names:
+        # full field list
+        # [https://doc.traefik.io/traefik/reference/](https://doc.traefik.io/traefik/reference/install-configuration/observability/logs-and-accesslogs/#json-format-fields)
+          RouterName: drop
+
+ports:
+  web:
+    port: 80
+  websecure:
+    port: 443
+    exposedPort: 443
+
+providers:
+  kubernetesGateway:
+    enabled: true
+    experimentalChannel: false
+  kubernetesCRD:
+    # -- Load kuberneetes IngressRoute provider
+    enabled: true
+
+# Disable gateway default because I want to provide them separately.
+gatewayClass:
+  enabled: false
+gateway:
+  enabled: false
