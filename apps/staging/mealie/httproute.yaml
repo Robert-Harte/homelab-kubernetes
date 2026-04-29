@@ -16,4 +16,4 @@ spec:
         value: /
     backendRefs:
     - name: mealie
-      port: 80
+      port: 9000 

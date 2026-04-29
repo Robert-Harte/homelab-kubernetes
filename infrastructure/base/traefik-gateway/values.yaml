@@ -20,10 +20,10 @@ ports:
 providers:
   kubernetesGateway:
     enabled: true
-    experimentalChannel: true
+    experimentalChannel: false
   kubernetesCRD:
     # -- Load kuberneetes IngressRoute provider
-    enabled: true
+    enabled: false 
 
 # Disable gateway default because I want to provide them separately.
 gatewayClass:
