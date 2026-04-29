@@ -4,7 +4,11 @@ metadata:
   name: mealie
 spec:
   parentRefs:
-  - name: nginx-gateway
+  - name: traefik-gateway
+    sectionName: http
+    kind: Gateway
+  hostnames:
+  - mealie.robertharte.net
   rules:
   - matches:
     - path:
