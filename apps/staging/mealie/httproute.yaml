@@ -6,6 +6,7 @@ spec:
   parentRefs:
   - name: traefik-gateway
     sectionName: http
+    namespace: traefik-gateway
     kind: Gateway
   hostnames:
   - mealie.robertharte.net
@@ -16,4 +17,4 @@ spec:
         value: /
     backendRefs:
     - name: mealie
-      port: 9000 
+      port: 9000
