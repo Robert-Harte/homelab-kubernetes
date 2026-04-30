@@ -4,4 +4,4 @@ namespace: pgadmin
 resources:
   - ../../base/pgadmin/
   - pgadmin-container-env-secret.yaml
-  - ingress.yaml
+  - httproute.yaml

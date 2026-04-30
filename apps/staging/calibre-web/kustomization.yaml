@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: calibre
 resources:
   - ../../base/calibre-web/
-  - ingress.yaml
+  - httproute.yaml
