@@ -4,7 +4,12 @@ metadata:
   name: postgres
 spec:
   parentRefs:
-  - name: nginx-gateway
+  - name: traefik-gateway
+    sectionName: http
+    namespace: traefik-gateway
+    kind: Gateway
+  hostnames:
+  - postgres.robertharte.net
   rules:
   - matches:
     - path:
