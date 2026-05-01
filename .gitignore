@@ -1,3 +1,4 @@
 # Ignore specific files for now. These will be removed later.
 .certs
 .temp
+scripts
