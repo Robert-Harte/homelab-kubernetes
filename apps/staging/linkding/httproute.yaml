@@ -8,7 +8,7 @@ spec:
     sectionName: http
     namespace: traefik-gateway
     kind: Gateway
- - name: traefik-gateway
+  - name: traefik-gateway
     sectionName: https
     namespace: traefik-gateway
     kind: Gateway
