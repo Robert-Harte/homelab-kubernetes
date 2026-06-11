@@ -5,7 +5,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: pgadmin.robertharte.net
+    - host: pgadmin.robertharte.home
       http:
         paths:
           - backend:

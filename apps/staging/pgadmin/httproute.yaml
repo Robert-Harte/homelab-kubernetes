@@ -13,7 +13,7 @@ spec:
     namespace: traefik-gateway
     kind: Gateway
   hostnames:
-  - pgadmin.robertharte.net
+  - pgadmin.robertharte.home
   rules:
   - matches:
     - path:

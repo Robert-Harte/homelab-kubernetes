@@ -5,7 +5,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-    - host: mealie.robertharte.net
+    - host: mealie.robertharte.home
       http:
         paths:
           - backend:

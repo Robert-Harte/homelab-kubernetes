@@ -13,7 +13,7 @@ spec:
     namespace: traefik-gateway
     kind: Gateway
   hostnames:
-  - linkding.robertharte.net
+  - linkding.robertharte.home
   rules:
   - matches:
     - path:

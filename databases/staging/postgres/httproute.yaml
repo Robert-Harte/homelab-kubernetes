@@ -9,7 +9,7 @@ spec:
     namespace: traefik-gateway
     kind: Gateway
   hostnames:
-  - postgres.robertharte.net
+  - postgres.robertharte.home
   rules:
   - matches:
     - path:

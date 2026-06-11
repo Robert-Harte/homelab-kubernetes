@@ -13,7 +13,7 @@ spec:
     namespace: traefik-gateway
     kind: Gateway
   hostnames:
-  - calibre.robertharte.net
+  - calibre.robertharte.home
   rules:
   - matches:
     - path:
