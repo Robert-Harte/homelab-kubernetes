@@ -30,3 +30,7 @@ This sections lists the markdown files which are used when creating code.
 # via the create-code skill
 create-code 
 ```
+
+## Documentation
+
+- [[HTTPRoutes]] — Gateway API routing topology (traefik-gateway)
