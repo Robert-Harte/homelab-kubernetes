@@ -16,7 +16,7 @@ flowchart LR
     GW[(traefik-gateway)] --- L80
     GW --- L443
 
-    %% HTTPRoutes -> services. parentRef sectionName shown on the edge.
+    %% Every HTTPRoute attaches to both the http and https listeners.
     L443 -->|calibre| SVC1[svc calibre :8083]
     L80  -->|calibre| SVC1
     L443 -->|homepage| SVC2[svc homepage :3000]
@@ -27,7 +27,9 @@ flowchart LR
     L80  -->|mealie| SVC4
     L443 -->|pgadmin| SVC5[svc pgadmin :80]
     L80  -->|pgadmin| SVC5
-    L80  -->|postgres| SVC6[svc postgres :5432]
+
+    %% postgres is NOT routed through the Gateway — it uses its own LoadBalancer.
+    U -. direct LoadBalancer :5432 .-> PG[svc postgres :5432]
 ```
 
 ## HTTPRoutes
@@ -39,14 +41,13 @@ flowchart LR
 | linkding  | linkding.robertharte.home | http, https | linkding:9090 |
 | mealie    | mealie.robertharte.home   | http, https | mealie:9000 |
 | pgadmin   | pgadmin.robertharte.home  | http, https | pgadmin:80 |
-| postgres  | postgres.robertharte.home | **http only** | postgres:5432 |
 
 All routes share the single `traefik-gateway` Gateway
 (GatewayClass `traefik`, controller `traefik.io/gateway-controller`).
 
 ## Notes
 
-- **`postgres` attaches to the `http` listener only** — the other five attach to both
-  `http` and `https`, so `https://postgres.robertharte.home` will not route.
-- Postgres is a raw TCP service on `:5432`; routing it through an HTTP-layer Gateway is
-  questionable. A Gateway API `TCPRoute` or a Traefik `IngressRouteTCP` is a better fit.
+- All five HTTPRoutes attach to both the `http` (:80) and `https` (:443) listeners.
+- **PostgreSQL is intentionally not routed through the Gateway.** Its HTTPRoute (and
+  Ingress) were removed — Postgres is a raw TCP service and is exposed directly via its
+  own `LoadBalancer` Service on `:5432`, with TLS handled by Postgres (`sslmode`).
