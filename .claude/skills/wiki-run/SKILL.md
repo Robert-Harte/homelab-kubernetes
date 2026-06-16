@@ -21,7 +21,7 @@ skills run. The only argument is the folder to run against.
    form `[[page-name]]` (or `[[page-name|Display Text]]` — use the `page-name` side):
    ```bash
    curl -fsSL "https://raw.githubusercontent.com/wiki/Robert-Harte/homelab-kubernetes/Home.md" \
-     | awk '/^##[[:space:]]/{in_skills = ($0 ~ /^##[[:space:]]+Skills[[:space:]]*$/)} in_skills' \
+     | awk '/^##[[:space:]]/{in_skills = ($0 ~ /^##[[:space:]]+Review-Skills[[:space:]]*$/)} in_skills' \
      | grep -oE '\[\[[^]]+\]\]' \
      | sed -E 's/\[\[//; s/\]\]//; s/\|.*$//'
    ```
