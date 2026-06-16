@@ -9,10 +9,17 @@ Validate YAML files provided as an argument. If no argument is given, validate a
 
 1. **Resolve targets** — if the argument is a single file, validate that file only. If it is a directory (or omitted), use `find` to locate all `*.yaml` and `*.yml` files recursively under that path.
 
-2. **Check required application files** — for each directory that contains at least one `*.yaml` or `*.yml` file and is a direct child of the target path (i.e. an application base folder), verify that all three of the following files are present:
+2. **Check required application files** — this check applies **only to application
+   folders under `apps/base/`** (the Kustomize bases). Overlays such as `apps/staging/*`
+   are not checked, since they intentionally inherit `deployment.yaml`/`namespace.yaml`
+   from the base they reference. For each immediate subdirectory of `apps/base/` that
+   contains at least one `*.yaml` or `*.yml` file, verify that all three of the following
+   files are present:
    - `deployment.yaml`
    - `namespace.yaml`
    - `kustomization.yaml`
+
+   If the target path does not include `apps/base/`, skip this check entirely.
 
    Record any missing files as errors for that application folder. Output a results table:
 
