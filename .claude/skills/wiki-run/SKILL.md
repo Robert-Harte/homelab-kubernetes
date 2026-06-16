@@ -17,7 +17,7 @@ skills run. The only argument is the folder to run against.
    This value is forwarded to every skill that runs.
 
 2. **Discover skills from the Home page** — fetch the wiki Home page and extract the ordered
-   list of skill page names from its `## Skills` section. Each entry is a wiki link of the
+   list of skill page names from its `## Review-Skills` section. Each entry is a wiki link of the
    form `[[page-name]]` (or `[[page-name|Display Text]]` — use the `page-name` side):
    ```bash
    curl -fsSL "https://raw.githubusercontent.com/wiki/Robert-Harte/homelab-kubernetes/Home.md" \
@@ -25,7 +25,7 @@ skills run. The only argument is the folder to run against.
      | grep -oE '\[\[[^]]+\]\]' \
      | sed -E 's/\[\[//; s/\]\]//; s/\|.*$//'
    ```
-   This prints one skill page name per line, in the order they appear under `## Skills`.
+   This prints one skill page name per line, in the order they appear under `## Review-Skills`.
    If the section is empty or missing, report that no skills were found on the Home page
    (`https://github.com/Robert-Harte/homelab-kubernetes/wiki/Home/_edit`) and stop.
 
