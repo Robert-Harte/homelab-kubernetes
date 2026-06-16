@@ -1,0 +1,38 @@
+name: Publish Wiki
+
+# Publishes the contents of the wiki/ folder to the repo's GitHub wiki
+# (https://github.com/Robert-Harte/homelab-kubernetes.wiki.git) whenever
+# wiki content changes on main. The wiki is a separate git repo, so this
+# Action is what keeps the version-controlled wiki/ folder in sync with it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'wiki/**'
+      - '.github/workflows/publish-wiki.yml'
+  # Allow manual runs from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Avoid concurrent wiki pushes clobbering each other.
+concurrency:
+  group: publish-wiki
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Publish wiki/ to the GitHub wiki
+        uses: Andrew-Chen-Wang/github-wiki-action@v4
+        with:
+          path: wiki/
+          # If the default GITHUB_TOKEN cannot push to the wiki, create a PAT
+          # with repo scope, store it as a secret (e.g. WIKI_TOKEN), and set:
+          # token: ${{ secrets.WIKI_TOKEN }}
