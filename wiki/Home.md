@@ -10,13 +10,6 @@ Pages tagged as **skills** are fetched and executed by the `wiki-run` skill.
 
 ## Workflows
 
-### Kubernetes validation
-
-Run the following skills in order with `wiki-run`:
-
-1. [[validate-yaml]] — validate the YAML files
-2. [[print-hello]] — print hello world on completion
-
 ```bash
 # via the wiki-run skill
 wiki-run validate-yaml print-hello ./apps
