@@ -12,5 +12,5 @@ Pages tagged as **skills** are fetched and executed by the `wiki-run` skill.
 
 ```bash
 # via the wiki-run skill
-wiki-run validate-yaml print-hello ./apps
+wiki-run ./apps
 ```
