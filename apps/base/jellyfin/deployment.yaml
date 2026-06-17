@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: jellyfin
+  name: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      volumes:
+        - name: jellyfin-config
+          persistentVolumeClaim:
+            claimName: jellyfin-config-pvc
+        - name: jellyfin-cache
+          persistentVolumeClaim:
+            claimName: jellyfin-cache-pvc
+        - name: jellyfin-media
+          persistentVolumeClaim:
+            claimName: jellyfin-media-pvc
+      containers:
+      - image: ghcr.io/hotio/jellyfin:release-10.11.11
+        name: jellyfin
+        ports:
+          - containerPort: 8096
+        securityContext:
+          allowPrivilegeEscalation: false
+        volumeMounts:
+          - mountPath: "/config"
+            name: jellyfin-config
+          - mountPath: "/cache"
+            name: jellyfin-cache
+          - mountPath: "/mnt/jellyfin-media"
+            name: jellyfin-media
+            readOnly: true
