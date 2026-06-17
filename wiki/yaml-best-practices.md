@@ -12,6 +12,7 @@ Check YAML files against indentation best practices. If no argument is given, ch
    2 spaces. Leading whitespace on any line must be a multiple of 2 spaces.
 2. **Never use tabs** — tab characters must not be used for indentation (or anywhere in
    the file). Any tab should be replaced with two spaces.
+3. **Remove whitespace** - Remove empty whitespace at the end of a line or at the end of a file.
 
 ## Steps
 
