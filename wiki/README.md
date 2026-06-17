@@ -16,7 +16,7 @@ GitHub Action publishes the contents of this folder to the wiki on every push to
   top-level `*.md` files; `-` in a filename renders as a space in the page title.
 - `Home.md` is the wiki landing page.
 - Files with `name`/`description` front matter (e.g. `validate-yaml.md`,
-  `print-hello.md`) are skill definitions consumed by the `wiki-run` skill.
+  `yaml-best-practices.md`) are skill definitions consumed by the `wiki-run` skill.
 
 ## Note
 

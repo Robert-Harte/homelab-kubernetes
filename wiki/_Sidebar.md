@@ -4,7 +4,7 @@
 
 **Review-Skills**
 - [[validate-yaml]]
-- [[print-hello]]
+- [[yaml-best-practices]]
 
 **Create-Skills**
 

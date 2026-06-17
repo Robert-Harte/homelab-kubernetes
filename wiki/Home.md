@@ -9,7 +9,6 @@ This section lists the markdown files which are used for reviewing code.
 
 - [[validate-yaml]] — validate YAML syntax and check required app files
 - [[yaml-best-practices]] — enforce 2-space indents and no tabs
-- [[print-hello]] — minimal example skill
 
 ### Workflows
 
