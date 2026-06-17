@@ -29,6 +29,9 @@ data:
         - Calibre:
             - href: https://calibre.robertharte.home/
               description: Calibre
+        - Jellyfin:
+            - href: https://jellyfin.robertharte.home/
+              description: Jellyfin Home Media Centre
   services.yaml: |
     - Monitoring:
         - Grafana:
