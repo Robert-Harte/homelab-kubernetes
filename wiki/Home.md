@@ -1,7 +1,7 @@
 # homelab-kubernetes wiki
 
 Documentation and runnable skill definitions for the homelab Kubernetes cluster.
-Pages tagged as **skills** are fetched and executed by the `wiki-run` skill.
+Pages tagged as **skills** are fetched and executed by the `wiki-review` skill.
 
 ## Review-Skills
 
@@ -13,8 +13,8 @@ This section lists the markdown files which are used for reviewing code.
 ### Workflows
 
 ```bash
-# via the wiki-run skill
-wiki-run ./apps
+# via the wiki-review skill
+wiki-review ./apps
 ```
 
 ## Create-Skills

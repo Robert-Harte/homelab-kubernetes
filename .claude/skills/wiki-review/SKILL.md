@@ -1,9 +1,9 @@
 ---
-name: wiki-run
-description: Run every skill listed under the "Skills" section of the homelab-kubernetes GitHub wiki Home page, in order, against a target folder. The only argument is the folder to run against (e.g. "wiki-run ./apps"); omit it to default to the current directory.
+name: wiki-review
+description: Run every skill listed under the "Skills" section of the homelab-kubernetes GitHub wiki Home page, in order, against a target folder. The only argument is the folder to run against (e.g. "wiki-review ./apps"); omit it to default to the current directory.
 ---
 
-# Wiki Run
+# Wiki Review
 
 Discover the skill set from the `Robert-Harte/homelab-kubernetes` GitHub wiki **Home page**,
 then fetch and execute each of those skill definitions in order against a target folder. The
@@ -17,11 +17,14 @@ skills run. The only argument is the folder to run against.
    This value is forwarded to every skill that runs.
 
 2. **Discover skills from the Home page** — fetch the wiki Home page and extract the ordered
-   list of skill page names from its `## Review-Skills` section. Each entry is a wiki link of the
-   form `[[page-name]]` (or `[[page-name|Display Text]]` — use the `page-name` side):
+   list of skill page names from its `## Review-Skills` section. The section runs from the
+   `## Review-Skills` heading until the next heading of **any** level (e.g. a `### Workflows`
+   sub-heading closes it), so only links directly under Review-Skills are processed. Each entry
+   is a wiki link of the form `[[page-name]]` (or `[[page-name|Display Text]]` — use the
+   `page-name` side):
    ```bash
    curl -fsSL "https://raw.githubusercontent.com/wiki/Robert-Harte/homelab-kubernetes/Home.md" \
-     | awk '/^##[[:space:]]/{in_skills = ($0 ~ /^##[[:space:]]+Review-Skills[[:space:]]*$/)} in_skills' \
+     | awk '/^#{1,6}[[:space:]]/{in_skills = ($0 ~ /^##[[:space:]]+Review-Skills[[:space:]]*$/)} in_skills' \
      | grep -oE '\[\[[^]]+\]\]' \
      | sed -E 's/\[\[//; s/\]\]//; s/\|.*$//'
    ```
