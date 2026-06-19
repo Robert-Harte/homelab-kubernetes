@@ -1,0 +1,14 @@
+# Run with: pre-commit install   (one-time, sets up the git hook)
+# Manual run: pre-commit run --all-files
+#
+# The yaml-format hook reuses the same .claude/hooks/yaml-format.py that
+# Claude Code runs on Write/Edit, so formatting is identical whether a file is
+# edited by Claude, by hand, or by another contributor — one source of truth.
+repos:
+  - repo: local
+    hooks:
+      - id: yaml-format
+        name: Format YAML (tabs->spaces, trailing ws, final newline)
+        entry: python3 .claude/hooks/yaml-format.py
+        language: system
+        files: \.ya?ml$
