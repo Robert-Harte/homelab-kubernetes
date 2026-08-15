@@ -31,7 +31,7 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-SKIP_DATABASES = {"template0", "template1", "robert", "tmp"}
+SKIP_DATABASES = {"template0", "template1", "robert", "tmp", "postgres"}
 
 
 def pg_cmd(*args) -> list[str]:
