@@ -15,10 +15,19 @@ data:
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
-    - Developer:
+    - Work:
         - Github:
             - abbr: GH
               href: https://github.com/
+        - WhatsApp:
+            - abbr: WA
+              href: https://web.whatsapp.com/
+        - GoogleChat:
+            - abbr: GC
+              href: https://chat.google.com/app/home
+        - GoogleDrive:
+            - abbr: GD
+              href: https://drive.google.com/drive/u/0/home
     - Internal:
         - LinkDing:
             - href: https://linkding.robertharte.home/
