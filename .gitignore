@@ -4,3 +4,4 @@
 
 # Personal Claude Code overrides (not shared with the repo)
 .claude/settings.local.json
+/scripts

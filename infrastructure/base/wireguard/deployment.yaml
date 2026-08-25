@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wireguard
+  name: wireguard
+spec:
+  replicas: 1
+  strategy:
+    # ReadWriteOnce volume + a single VPN listener: never run two pods at once.
+    type: Recreate
+  selector:
+    matchLabels:
+      app: wireguard
+  template:
+    metadata:
+      labels:
+        app: wireguard
+    spec:
+      # ip_forward is set at OS level on a bare server; a pod does not inherit it.
+      # Admitted as a pod-level sysctl on this cluster, so no privileged container.
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_forward
+            value: "1"
+      initContainers:
+        # Seed the base wg0.conf onto the PVC on first start only. Existing peers
+        # (already onboarded on the bare server) must be migrated into this file once.
+        - name: seed-config
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /config/wg_confs
+              if [ ! -f /config/wg_confs/wg0.conf ]; then
+                echo "Seeding base wg0.conf onto the volume"
+                cp /seed/wg0.conf /config/wg_confs/wg0.conf
+              else
+                echo "wg0.conf already present, leaving it untouched"
+              fi
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: wg0-base
+              mountPath: /seed
+      containers:
+        # --- WireGuard server (kernel-mode; the module is present on the node) ---
+        - name: wireguard
+          image: lscr.io/linuxserver/wireguard:latest   # multi-arch incl. arm64
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+            allowPrivilegeEscalation: false
+          ports:
+            - name: wireguard
+              containerPort: 51820
+              protocol: UDP
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Europe/London"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: server-key
+              mountPath: /etc/wireguard/keys
+              readOnly: true
+        # --- Python onboarding WebUI (shares the pod netns, so it can run
+        #     `wg syncconf wg0 ...` directly after editing the peer file) ---
+        - name: webui
+          image: ghcr.io/robert-harte/vpn-onboard-webui:latest   # TODO: build this image (arm64)
+          securityContext:
+            capabilities:
+              add: ["NET_ADMIN"]
+            allowPrivilegeEscalation: false
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: WG_CONF_PATH
+              value: /config/wg_confs/wg0.conf
+            - name: WG_INTERFACE
+              value: wg0
+            # Values baked into every generated client config:
+            - name: WG_SERVER_ENDPOINT
+              value: vpn.robertharte.net:51820
+            - name: WG_CLIENT_DNS
+              value: 192.168.0.10
+            - name: WG_CLIENT_ALLOWED_IPS
+              value: 0.0.0.0/0
+            # Client address allocation bounds (see README):
+            - name: WG_CLIENT_SUBNET
+              value: 10.8.0.0/24
+            - name: WG_CLIENT_IP_MIN
+              value: 10.8.0.10
+            - name: WG_CLIENT_IP_MAX
+              value: 10.8.0.50
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: wireguard-config-pvc
+        - name: wg0-base
+          configMap:
+            name: wireguard-wg0-base
+        - name: server-key
+          secret:
+            secretName: wireguard-container-env
+            defaultMode: 0400

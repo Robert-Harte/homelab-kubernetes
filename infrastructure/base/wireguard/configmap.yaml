@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wireguard-wg0-base
+data:
+  # Base wg0.conf used to SEED the config volume on first start only (an
+  # initContainer copies it in if no wg0.conf exists yet). After that, the
+  # WebUI owns the file on the PersistentVolume and appends client peers.
+  #
+  # PrivateKey is deliberately NOT in this file. It is injected at runtime from
+  # the mounted Secret (see the first PostUp line), so the key never lands on
+  # the peer-config volume the WebUI edits.
+  wg0.conf: |
+    [Interface]
+    # VPN server address on the wg0 tunnel interface (must be inside the client subnet)
+    Address = 10.8.0.1/24
+    ListenPort = 51820
+
+    # Inject the server private key from the mounted Secret, then set up NAT/forwarding.
+    PostUp = wg set %i private-key /etc/wireguard/keys/privateKey
+    PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+    # ---- client peers are appended below this line by the WebUI ----
