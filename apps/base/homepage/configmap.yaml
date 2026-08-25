@@ -41,7 +41,7 @@ data:
         - Jellyfin:
             - href: https://jellyfin.robertharte.home/
               description: Jellyfin Home Media Centre
-        - Wireguard
+        - Wireguard:
             - href: https://vpn.robertharte.home/
               description: wg-easy
   services.yaml: |
