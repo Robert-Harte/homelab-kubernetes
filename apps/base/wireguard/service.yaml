@@ -21,9 +21,9 @@ kind: Service
 metadata:
   labels:
     app: wireguard
-  name: vpn-webui
+  name: wg-easy
 spec:
-  # Internal only — reached over the LAN via the HTTPRoute, never exposed publicly.
+  # Internal only — the wg-easy UI is reached over the LAN via the HTTPRoute.
   type: ClusterIP
   selector:
     app: wireguard
@@ -31,4 +31,4 @@ spec:
     - name: http
       protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 51821

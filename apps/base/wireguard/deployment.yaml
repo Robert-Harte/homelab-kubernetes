@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wireguard
+  name: wireguard
+spec:
+  replicas: 1
+  strategy:
+    # ReadWriteOnce volume + single VPN listener: never run two pods at once.
+    type: Recreate
+  selector:
+    matchLabels:
+      app: wireguard
+  template:
+    metadata:
+      labels:
+        app: wireguard
+    spec:
+      # ip_forward is set at OS level on a bare server; a pod does not inherit it.
+      # Admitted as a pod-level sysctl on this cluster, so no privileged container.
+      # (wg-easy's compose also sets net.ipv4.conf.all.src_valid_mark and IPv6
+      # forwarding sysctls; those are "unsafe" in k8s — omitted here for an IPv4-only
+      # server. Add them via kubelet --allowed-unsafe-sysctls if you need IPv6.)
+      securityContext:
+        sysctls:
+          - name: net.ipv4.ip_forward
+            value: "1"
+      containers:
+        # All-in-one: wg-easy bundles the WireGuard server AND the web UI.
+        - name: wg-easy
+          image: ghcr.io/wg-easy/wg-easy:15   # pin the major; multi-arch incl. arm64
+          securityContext:
+            capabilities:
+              # SYS_MODULE not needed — the wireguard kernel module is present on the node.
+              add: ["NET_ADMIN"]
+          ports:
+            - name: wireguard
+              containerPort: 51820
+              protocol: UDP
+            - name: http
+              containerPort: 51821
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "51821"
+            - name: HOST
+              value: "0.0.0.0"
+            # UI is served over plain HTTP inside the cluster; TLS is terminated at the
+            # Traefik gateway (see httproute), so relax wg-easy's secure-cookie check.
+            - name: INSECURE
+              value: "true"
+            # Pre-seed the first-run setup wizard (optional; can also be set in the UI).
+            # Verify exact INIT_* names against the v15 docs; unknown vars are ignored.
+            - name: INIT_HOST
+              value: vpn.robertharte.net
+            - name: INIT_PORT
+              value: "51820"
+            - name: INIT_DNS
+              value: "192.168.0.10"
+          volumeMounts:
+            - name: config
+              mountPath: /etc/wireguard
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: wireguard-config-pvc

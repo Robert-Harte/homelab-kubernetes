@@ -3,5 +3,4 @@ kind: Kustomization
 namespace: wireguard
 resources:
   - ../../base/wireguard/
-  - wireguard-container-env-secret.yaml
   - httproute.yaml
