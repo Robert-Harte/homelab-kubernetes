@@ -28,6 +28,9 @@ data:
         - GoogleDrive:
             - abbr: GD
               href: https://drive.google.com/drive/u/0/home
+        - ClickUp:
+            - abbr: CU
+              href: https://app.clickup.com/90151436985
     - Internal:
         - LinkDing:
             - href: https://linkding.robertharte.home/
