@@ -39,3 +39,15 @@ spec:
         - secretName: grafana-tls-secret
           hosts:
             - grafana.robertharte.home
+    prometheus:
+      prometheusSpec:
+        # under the 5Gi claim: a full volume stops Prometheus writing instead of pruning
+        retentionSize: 4GB
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 5Gi
