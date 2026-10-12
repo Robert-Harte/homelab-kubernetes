@@ -27,6 +27,11 @@ spec:
           kind: PrometheusRule
   values:
     grafana:
+      additionalDataSources:
+        - access: proxy
+          name: Loki
+          type: loki
+          url: http://loki.monitoring.svc:3100
       envFrom:
         - secretRef:
             name: grafana-env
