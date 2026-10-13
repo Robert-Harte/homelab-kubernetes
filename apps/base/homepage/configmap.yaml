@@ -47,6 +47,9 @@ data:
         - Wireguard:
             - href: https://vpn.robertharte.home/
               description: wg-easy
+        - Pi-hole:
+            - href: https://pihole.robertharte.home/admin/
+              description: Pi-hole
   services.yaml: |
     - Monitoring:
         - Grafana:
