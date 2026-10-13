@@ -37,6 +37,7 @@ flowchart LR
 | HTTPRoute | Hostname | Listeners attached (`sectionName`) | Backend |
 |-----------|----------|------------------------------------|---------|
 | calibre   | calibre.robertharte.home  | http, https | calibre:8083 |
+| grafana   | grafana.robertharte.home  | http, https | kube-prometheus-stack-grafana:80 |
 | homepage  | homepage.robertharte.home | http, https | homepage:3000 |
 | linkding  | linkding.robertharte.home | http, https | linkding:9090 |
 | mealie    | mealie.robertharte.home   | http, https | mealie:9000 |
@@ -47,7 +48,9 @@ All routes share the single `traefik-gateway` Gateway
 
 ## Notes
 
-- All five HTTPRoutes attach to both the `http` (:80) and `https` (:443) listeners.
+- All six HTTPRoutes attach to both the `http` (:80) and `https` (:443) listeners.
+- **Grafana's HTTPRoute is rendered by the kube-prometheus-stack chart** from
+  `grafana.route.main` in its HelmRelease values, not from an `httproute.yaml`.
 - **PostgreSQL is intentionally not routed through the Gateway.** Its HTTPRoute (and
   Ingress) were removed — Postgres is a raw TCP service and is exposed directly via its
   own `LoadBalancer` Service on `:5432`, with TLS handled by Postgres (`sslmode`).
