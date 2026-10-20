@@ -37,6 +37,7 @@ flowchart LR
 | HTTPRoute | Hostname | Listeners attached (`sectionName`) | Backend |
 |-----------|----------|------------------------------------|---------|
 | calibre   | calibre.robertharte.home  | http, https | calibre:8083 |
+| grafana   | grafana.robertharte.home  | http, https | kube-prometheus-stack-grafana:80 |
 | homepage  | homepage.robertharte.home | http, https | homepage:3000 |
 | linkding  | linkding.robertharte.home | http, https | linkding:9090 |
 | mealie    | mealie.robertharte.home   | http, https | mealie:9000 |
@@ -48,7 +49,9 @@ All routes share the single `traefik-gateway` Gateway
 
 ## Notes
 
-- All six HTTPRoutes attach to both the `http` (:80) and `https` (:443) listeners.
+- All seven HTTPRoutes attach to both the `http` (:80) and `https` (:443) listeners.
+- **Grafana's HTTPRoute is rendered by the kube-prometheus-stack chart** from
+  `grafana.route.main` in its HelmRelease values, not from an `httproute.yaml`.
 - **Pi-hole runs outside the cluster**, in Docker on gondolin. Its Service has no
   selector; an EndpointSlice points it at the host's admin port, 192.168.0.10:8081.
 - **PostgreSQL is intentionally not routed through the Gateway.** Its HTTPRoute (and

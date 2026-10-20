@@ -1,0 +1,80 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: alloy
+  namespace: monitoring
+spec:
+  interval: 60m
+  chart:
+    spec:
+      chart: alloy
+      version: "1.13.0"
+      sourceRef:
+        kind: HelmRepository
+        name: alloy
+        namespace: monitoring
+      interval: 12h
+  dependsOn:
+    - name: loki
+  values:
+    alloy:
+      configMap:
+        content: |
+          // each DaemonSet pod tails only its own node's pods, so a second node adds no duplicates
+          discovery.kubernetes "pods" {
+            role = "pod"
+            selectors {
+              role  = "pod"
+              field = "spec.nodeName=" + coalesce(sys.env("HOSTNAME"), constants.hostname)
+            }
+          }
+
+          discovery.relabel "pod_logs" {
+            targets = discovery.kubernetes.pods.targets
+
+            rule {
+              source_labels = ["__meta_kubernetes_namespace"]
+              target_label  = "namespace"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_name"]
+              target_label  = "pod"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_container_name"]
+              target_label  = "container"
+            }
+
+            // the kubelet writes /var/log/pods/<namespace>_<pod>_<uid>/<container>/<n>.log
+            rule {
+              source_labels = ["__meta_kubernetes_pod_uid", "__meta_kubernetes_pod_container_name"]
+              separator     = "/"
+              target_label  = "__path__"
+              replacement   = "/var/log/pods/*$1/*.log"
+            }
+          }
+
+          local.file_match "pod_logs" {
+            path_targets = discovery.relabel.pod_logs.output
+          }
+
+          loki.source.file "pod_logs" {
+            targets    = local.file_match.pod_logs.targets
+            forward_to = [loki.process.pod_logs.receiver]
+          }
+
+          // strips the container runtime's timestamp and stream prefix from each line
+          loki.process "pod_logs" {
+            stage.cri {}
+            forward_to = [loki.write.default.receiver]
+          }
+
+          loki.write "default" {
+            endpoint {
+              url = "http://loki.monitoring.svc:3100/loki/api/v1/push"
+            }
+          }
+      mounts:
+        varlog: true
