@@ -49,7 +49,9 @@ All routes share the single `traefik-gateway` Gateway
 
 ## Notes
 
-- All six HTTPRoutes attach to both the `http` (:80) and `https` (:443) listeners.
+- All seven HTTPRoutes attach to both the `http` (:80) and `https` (:443) listeners.
+- **Grafana's HTTPRoute is rendered by the kube-prometheus-stack chart** from
+  `grafana.route.main` in its HelmRelease values, not from an `httproute.yaml`.
 - **Pi-hole runs outside the cluster**, in Docker on gondolin. Its Service has no
   selector; an EndpointSlice points it at the host's admin port, 192.168.0.10:8081.
 - **PostgreSQL is intentionally not routed through the Gateway.** Its HTTPRoute (and
