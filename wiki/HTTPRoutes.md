@@ -42,6 +42,7 @@ flowchart LR
 | linkding  | linkding.robertharte.home | http, https | linkding:9090 |
 | mealie    | mealie.robertharte.home   | http, https | mealie:9000 |
 | pgadmin   | pgadmin.robertharte.home  | http, https | pgadmin:80 |
+| pihole    | pihole.robertharte.home   | http, https | pihole:8081 → gondolin 192.168.0.10:8081 |
 
 All routes share the single `traefik-gateway` Gateway
 (GatewayClass `traefik`, controller `traefik.io/gateway-controller`).
@@ -49,8 +50,8 @@ All routes share the single `traefik-gateway` Gateway
 ## Notes
 
 - All six HTTPRoutes attach to both the `http` (:80) and `https` (:443) listeners.
-- **Grafana's HTTPRoute is rendered by the kube-prometheus-stack chart** from
-  `grafana.route.main` in its HelmRelease values, not from an `httproute.yaml`.
+- **Pi-hole runs outside the cluster**, in Docker on gondolin. Its Service has no
+  selector; an EndpointSlice points it at the host's admin port, 192.168.0.10:8081.
 - **PostgreSQL is intentionally not routed through the Gateway.** Its HTTPRoute (and
   Ingress) were removed — Postgres is a raw TCP service and is exposed directly via its
   own `LoadBalancer` Service on `:5432`, with TLS handled by Postgres (`sslmode`).

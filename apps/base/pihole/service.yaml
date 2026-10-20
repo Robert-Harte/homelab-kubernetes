@@ -1,0 +1,34 @@
+# Pi-hole runs in Docker on gondolin, outside the cluster: the Service has no
+# selector, and the EndpointSlice below points it at the host's admin port.
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pihole
+  name: pihole
+spec:
+  ports:
+    - name: http
+      port: 8081
+      protocol: TCP
+  type: ClusterIP
+---
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  labels:
+    # ties the slice to the Service above; the name is what links them
+    kubernetes.io/service-name: pihole
+  name: pihole-gondolin
+addressType: IPv4
+endpoints:
+  - addresses:
+      - 192.168.0.10
+    # Traefik skips endpoints whose ready condition is unset
+    conditions:
+      ready: true
+ports:
+  # must match the Service port's name
+  - name: http
+    port: 8081
+    protocol: TCP
