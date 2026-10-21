@@ -33,3 +33,4 @@ create-code
 ## Documentation
 
 - [[HTTPRoutes]] — Gateway API routing topology (traefik-gateway)
+- [[Monitoring]] — Prometheus, Loki, Alloy and Grafana, plus persistent volumes
