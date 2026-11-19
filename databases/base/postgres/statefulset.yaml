@@ -13,10 +13,17 @@ spec:
       labels:
         app: postgres
     spec:
+      # Run as the alpine image's postgres user (uid/gid 70) so the entrypoint
+      # skips its gosu user-switch, which hangs on gondolin (2026-11-19).
+      securityContext:
+        runAsUser: 70
+        runAsGroup: 70
       containers:
         - name: postgres
           image: 'postgres:18.3-alpine3.23'
           imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 5432
           envFrom:
